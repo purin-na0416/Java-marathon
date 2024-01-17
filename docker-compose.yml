@@ -14,7 +14,7 @@ services:
     container_name: "nodejs"
     image: node:20-bullseye
     ports:
-      - "3000:3000"
+      - "3665:3665"
     volumes:
       - "./src/node:/app"
       - "./work:/work"
@@ -23,6 +23,8 @@ services:
   db:
     container_name: "postgres"
     image: postgres:14-alpine
+    ports:
+      - "5432:5432"
     restart: always
     shm_size: 256mb
     healthcheck:

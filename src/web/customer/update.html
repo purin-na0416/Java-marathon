@@ -3,16 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>案件情報入力</title>
+    <title>顧客情報更新</title>
     <!-- Bootstrap CSSの読み込み -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <body>
     <div class="container mt-5">
         <!-- ここにHTMLを書く -->
+        <h2 class="mb-4">顧客情報を編集してください</h2>
+        <form id="customer-edit-form">
+            <div class="form-group">
+                <label for="companyName">会社名:</label>
+                <input type="text" class="form-control" id="companyName" name="companyName" required>
+            </div>
+            <div class="form-group">
+                <label for="industry">業種:</label>
+                <input type="text" class="form-control" id="industry" name="industry" required>
+            </div>
+            <div class="form-group">
+                <label for="contact">連絡先:</label>
+                <input type="text" class="form-control" id="contact" name="contact" required>
+            </div>
+            <div class="form-group">
+                <label for="location">所在地:</label>
+                <input type="text" class="form-control" id="location" name="location" required>
+            </div>
+            <button type="submit" class="btn btn-primary">送信</button>
+        </form>
     </div>
     <script type="module">
-        <!-- ここにJSを書く -->
+        import config from '../config.js';
+
+        fetch(config.apiUrl + '/detail', {
+            method: 'POST',
+            credentials: 'include'
+        }).then((response) => {
+            console.log(response); 
+            return response.json();
+            })
+          .then((data) => {
+            console.log(data);
+
+            const companyName = document.getElementById('companyName');
+            const industry = document.getElementById('industry');
+            const contact = document.getElementById('contact');
+            const location = document.getElementById('location');
+
+            companyName.value = data.companyData.company_name;
+            industry.value = data.companyData.industry;
+            contact.value = data.companyData.contact;
+            location.value = data.companyData.location;
+          }) 
+
+        document.getElementById('customer-edit-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+
+            fetch(config.apiUrl + '/edit-customer', {
+                method: 'POST',
+                header: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                credentials: 'include',
+                body: new URLSearchParams([...formData])
+            }).then(response => {
+                return response.json();
+              })
+              .then(data => {
+                window.location.href = "list.html";
+              })
+              .catch(error => console.error('Error:', error));
+        })
     </script>
     <!-- BootstrapのJavaScriptの読み込み -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>

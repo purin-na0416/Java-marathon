@@ -12,6 +12,7 @@
 work
 db
 pgadmin
+.vscode
 src/*/node_modules
 src/*/.env
 

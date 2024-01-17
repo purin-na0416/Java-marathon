@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detail</title>
+  <!-- Bootstrap CSSの読み込み -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container mt-5">
+    <h2 class="mb-4">顧客詳細</h2>
+    <p>customer_id: <span id="customer_id"></span></p>
+    <p>company_name: <span id="company_name"></span></p>
+    <p>industry: <span id="industry"></span></p>
+    <p>contact: <span id="contact"></span></p>
+    <p>location: <span id="location"></span></p>
+    <p>created_date: <span id="created_date"></span></p>
+    <p>updated_date: <span id="updated_date"></span></p>
+    <br>
+
+    <button type="button" class="btn btn-primary" id="edit" style="margin-right: 10px;">編集</button>
+    <button type="button" class="btn btn-primary" id="delete">削除</button>
+  </div>
+  <script type="module">
+    import config from '../config.js';
+
+    fetch(config.apiUrl + '/detail', {
+      method: 'POST',
+      credentials: 'include'
+    }).then((response) => {
+        console.log(response); 
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        const { customer_id, company_name, industry, contact, location, created_date, updated_date } = data.companyData;
+
+        const customerIdArea = document.getElementById('customer_id');
+        const companyNameArea = document.getElementById('company_name');
+        const industryArea = document.getElementById('industry');
+        const contactArea = document.getElementById('contact');
+        const locationArea = document.getElementById('location');
+        const createdDateArea = document.getElementById('created_date');
+        const updatedDateArea = document.getElementById('updated_date');
+
+        customerIdArea.textContent = customer_id;
+        companyNameArea.textContent = company_name;
+        industryArea.textContent = industry;
+        contactArea.textContent = contact;
+        locationArea.textContent = location;
+        createdDateArea.textContent = created_date;
+        updatedDateArea.textContent = updated_date;
+      });  
+      
+      document.getElementById('edit').addEventListener('click', function(e) {
+        window.location.href = "update.html";
+      })
+
+      document.getElementById('delete').addEventListener('click', function(e) {
+        if (!window.confirm('削除していいですか？')) {
+          return false;
+        } else {
+          fetch(config.apiUrl + '/delete-customer', {
+            method: 'POST',
+            credentials: 'include'
+          }).then((response) => {
+              console.log(response); 
+              return response.json();
+            })
+            .then((data) => {
+              console.log(data);
+              window.location.href = "list.html";
+            })
+        } 
+      });     
+  </script> 
+  <!-- BootstrapのJavaScriptと依存関係のリンク -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

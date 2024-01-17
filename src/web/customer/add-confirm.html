@@ -3,16 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>案件情報入力</title>
+    <title>登録確認</title>
     <!-- Bootstrap CSSの読み込み -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <body>
     <div class="container mt-5">
-        <!-- ここにHTMLを書く -->
+        <p>入力した情報を登録しますか？</p>
+        <br>
+        <button type="button" class="btn btn-primary" id="register" style="margin-right: 10px;">はい</button>
+        <button type="button" class="btn btn-secondary" id="cancel">キャンセル</button>
     </div>
     <script type="module">
-        <!-- ここにJSを書く -->
+        import config from '../config.js';
+
+        document.getElementById('cancel').addEventListener('click', function(e) {
+            window.location.href = "add.html";
+        });
+        
+        document.getElementById('register').addEventListener('click', function(e) {
+            fetch(config.apiUrl + '/add-customer', {
+                method: 'POST',
+                credentials: 'include'
+            }).then(response => {
+                    return response.json();
+                })
+                .then((data) => {
+                    if(data.success) {
+                        alert('顧客情報が正常に保存されました。');
+                    } else {
+                        alert('保存に失敗しました。');
+                    }
+                })
+                .catch(error => console.error('Error:', error)); 
+        });
     </script>
     <!-- BootstrapのJavaScriptの読み込み -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
