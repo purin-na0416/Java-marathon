@@ -14,7 +14,5 @@ jobs:
           SSH_PORT: ${{ secrets.DEV_SSH_PORT }}
           SSH_USER: ${{ secrets.DEV_SSH_USER }}
           SSH_KEY: ${{ secrets.DEV_SSHE_SSH_KEY }}
-      - run: |
-          scp -i ${{ secrets.DEV_SSHE_SSH_KEY }} ${{ secrets.DEV_SSH_USER }}@${{ secrets.DEV_SSH_HOST }}:/app/deploy_test.sh /tmp/deploy_test.sh
-          chmod 700 /tmp/deploy_test.sh
-          ssh ${{ steps.ssh.outputs.SERVER }} bash /tmp/deploy_test.sh natsuki_fujii
+      - run: 
+          ssh ${{ steps.ssh.outputs.SERVER }} bash ~/deploy_test.sh natsuki_fujii
