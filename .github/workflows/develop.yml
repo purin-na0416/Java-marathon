@@ -15,4 +15,4 @@ jobs:
           SSH_USER: ${{ secrets.DEV_SSH_USER }}
           SSH_KEY: ${{ secrets.DEV_SSHE_SSH_KEY }}
       - run: 
-          ssh ${{ secrets.DEV_SSH_USER }}@${{ steps.ssh.outputs.SERVER }} bash ~/deploy_test.sh natsuki_fujii
+          ssh ${{ secrets.DEV_SSH_USER }}@${{ steps.ssh.outputs.SERVER }} bash /home/${{ secrets.DEV_SSH_USER }}/deploy_test.sh natsuki_fujii
