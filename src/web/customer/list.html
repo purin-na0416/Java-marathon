@@ -56,6 +56,10 @@
         }; 
       }  
 
+      window.sendCompanyName = function() {
+        return sendCompanyName();
+      };
+
       function createTable(data) {
         const list = document.getElementById("customer-list");
         data.forEach((customer, index) => {
