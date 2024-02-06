@@ -74,6 +74,10 @@
         });
       }
 
+      window.createTable = function(data) {
+        return createTable(data);
+      };
+
       fetch(config.apiUrl + '/customers')
         .then((response) => {
           console.log(response); // ここでレスポンスオブジェクトをログに出力

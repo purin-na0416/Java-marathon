@@ -25,13 +25,22 @@ describe('顧客情報入力フォームのテスト', () => {
 
 describe('顧客一覧画面のテスト', () => {
   //テストデータ
-  const testData = { customer_id : 1, company_name : 'テスト株式会社', industry : 'IT', contact : '03-1111-1111', location : '東京都新宿区', created_date : Date.now(), updated_date : Date.now() };
-
-  cy.visit('/natsuki_fujii/customer/list.html'); //テスト対象のページにアクセス
+  const testData = { 
+    customer_id : 1, 
+    company_name : 'テスト株式会社', 
+    industry : 'IT', 
+    contact : '03-1111-1111', 
+    location : '東京都新宿区', 
+    created_date : Date.now(), 
+    updated_date : Date.now() 
+  };
 
   it('データを取得し、顧客一覧ページを表示する', () => {
+    cy.intercept('GET', '/api_natsuki_fujii/customers', testData);
+    cy.visit('/natsuki_fujii/customer/list.html'); //テスト対象のページにアクセス
+
     cy.window().then((win) => {
-      win.createTable(testData);
+      createTable(testData);
     });
 
     cy.get('#customer-list tr').each(($row, index) => {
