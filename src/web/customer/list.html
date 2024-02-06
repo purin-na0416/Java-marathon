@@ -56,6 +56,24 @@
         }; 
       }  
 
+      function createTable(data) {
+        const list = document.getElementById("customer-list");
+        data.forEach((customer, index) => {
+          const row = list.insertRow();
+          const cell1 = row.insertCell(0);
+          const cell2 = row.insertCell(1);
+          const cell3 = row.insertCell(2);
+          cell1.textContent = index + 1;
+
+          const link = document.createElement("a");
+          link.href = "detail.html";
+          link.textContent = customer.company_name;
+          cell2.appendChild(link);
+
+          cell3.textContent = customer.contact;
+        });
+      }
+
       fetch(config.apiUrl + '/customers')
         .then((response) => {
           console.log(response); // ここでレスポンスオブジェクトをログに出力
@@ -63,22 +81,8 @@
         })
         .then((data) => {
           console.log(data); // ここで解析されたデータをログに出力
-          const list = document.getElementById("customer-list");
-          data.forEach((customer, index) => {
-            const row = list.insertRow();
-            const cell1 = row.insertCell(0);
-            const cell2 = row.insertCell(1);
-            const cell3 = row.insertCell(2);
-            cell1.textContent = index + 1;
-
-            const link = document.createElement("a");
-            link.href = "detail.html";
-            link.textContent = customer.company_name;
-            cell2.appendChild(link);
-
-            cell3.textContent = customer.contact;
-          });
-
+          
+          createTable(data);
           sendCompanyName();
         })
         .catch((error) => console.error(error));

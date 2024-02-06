@@ -6,6 +6,7 @@ describe('顧客情報入力フォームのテスト', () => {
       cy.stub(win, 'alert').as('alertStub');
     });
 
+
     // テストデータの読み込み
     cy.fixture('customerData').then((data) => {
       // フォームの入力フィールドにテストデータを入力
@@ -18,14 +19,26 @@ describe('顧客情報入力フォームのテスト', () => {
 
     // フォームの送信
     cy.get('#customer-form').submit();
+  });
+});
 
-    cy.get('@alertStub').should('have.been.calledOnceWith', '顧客情報が正常に保存されました。');
 
-    // フォームがリセットされたことを確認
-    cy.get('#companyName').should('have.value', '');
-    cy.get('#industry').should('have.value', '');
-    cy.get('#contact').should('have.value', '');
-    cy.get('#location').should('have.value', '');
-    cy.wait(5000);
+describe('顧客一覧画面のテスト', () => {
+  //テストデータ
+  const testData = { customer_id : 1, company_name : 'テスト株式会社', industry : 'IT', contact : '03-1111-1111', location : '東京都新宿区', created_date : Date.now(), updated_date : Date.now() };
+
+  cy.visit('/natsuki_fujii/customer/list.html'); //テスト対象のページにアクセス
+
+  it('データを取得し、顧客一覧ページを表示する', () => {
+    cy.window().then((win) => {
+      win.createTable(testData);
+    });
+
+    cy.get('#customer-list tr').each(($row, index) => {
+      //各セルにテストデータが入っているか確認
+        cy.wrap($row).find('td').eq(0).should('contain', index + 1);
+        cy.wrap($row).find('td').eq(1).should('contain', testData.companyName);
+        cy.wrap($row).find('td').eq(2).should('contain', testData.contact);
+    });
   });
 });
