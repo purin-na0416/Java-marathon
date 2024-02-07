@@ -25,6 +25,30 @@
   <script type="module">
     import config from '../config.js';
 
+    function showDetail(data) {
+      const { customer_id, company_name, industry, contact, location, created_date, updated_date } = data.companyData;
+
+      const customerIdArea = document.getElementById('customer_id');
+      const companyNameArea = document.getElementById('company_name');
+      const industryArea = document.getElementById('industry');
+      const contactArea = document.getElementById('contact');
+      const locationArea = document.getElementById('location');
+      const createdDateArea = document.getElementById('created_date');
+      const updatedDateArea = document.getElementById('updated_date');
+
+      customerIdArea.textContent = customer_id;
+      companyNameArea.textContent = company_name;
+      industryArea.textContent = industry;
+      contactArea.textContent = contact;
+      locationArea.textContent = location;
+      createdDateArea.textContent = created_date;
+      updatedDateArea.textContent = updated_date;
+    }
+
+    window.showDetail = function() {
+      return showDetail(data);
+    }
+
     fetch(config.apiUrl + '/detail', {
       method: 'POST',
       credentials: 'include'
@@ -34,23 +58,7 @@
       })
       .then((data) => {
         console.log(data);
-        const { customer_id, company_name, industry, contact, location, created_date, updated_date } = data.companyData;
-
-        const customerIdArea = document.getElementById('customer_id');
-        const companyNameArea = document.getElementById('company_name');
-        const industryArea = document.getElementById('industry');
-        const contactArea = document.getElementById('contact');
-        const locationArea = document.getElementById('location');
-        const createdDateArea = document.getElementById('created_date');
-        const updatedDateArea = document.getElementById('updated_date');
-
-        customerIdArea.textContent = customer_id;
-        companyNameArea.textContent = company_name;
-        industryArea.textContent = industry;
-        contactArea.textContent = contact;
-        locationArea.textContent = location;
-        createdDateArea.textContent = created_date;
-        updatedDateArea.textContent = updated_date;
+        showDetail(data);
       });  
       
       document.getElementById('edit').addEventListener('click', function(e) {
