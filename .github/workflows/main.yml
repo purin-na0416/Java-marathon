@@ -15,7 +15,7 @@ jobs:
           SSH_USER: ${{ secrets.DEV_SSH_USER }}
           SSH_KEY: ${{ secrets.DEV_SSHE_SSH_KEY }}
       - run: 
-          ssh ${{ secrets.DEV_SSH_USER }}@${{ steps.ssh.outputs.SERVER }} bash /home/${{ secrets.DEV_SSH_USER }}/deploy.sh natsuki_fujii  
+          ssh ${{ steps.ssh.outputs.SERVER }} bash /app/deploy.sh natsuki_fujii 
 
   deploy:
     runs-on: ubuntu-latest   
@@ -28,4 +28,4 @@ jobs:
           SSH_USER: ${{ secrets.SSH_USER }}
           SSH_KEY: ${{ secrets.SSHE_SSH_KEY }}
       - run:          
-          ssh ${{ secrets.SSH_USER }}@${{ steps.ssh2.outputs.SERVER }} bash /home/${{ secrets.SSH_USER }}/deploy.sh natsuki_fujii
+          ssh ${{ steps.ssh.outputs.SERVER }} bash /app/deploy.sh natsuki_fujii
