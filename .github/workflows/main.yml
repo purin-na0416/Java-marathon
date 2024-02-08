@@ -28,4 +28,4 @@ jobs:
           SSH_USER: ${{ secrets.SSH_USER }}
           SSH_KEY: ${{ secrets.SSHE_SSH_KEY }}
       - run:          
-          ssh ${{ steps.ssh.outputs.SERVER }} bash /app/deploy.sh natsuki_fujii
+          ssh ${{ steps.ssh2.outputs.SERVER }} bash /app/deploy.sh natsuki_fujii
